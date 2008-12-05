@@ -64,9 +64,11 @@ else
     step = 100.0 / files.size.to_f
     progress = 0
     files.each do |script|
-      dialog.parameters = {'summary' => "Parsing #{script}", 'progressValue' => progress}
-      update_database script, parse_file(script)
-      progress += step
+      if language = language_for(script)
+        dialog.parameters = {'summary' => "Parsing #{script}", 'progressValue' => progress}
+        update_database script, parse_file(script, language)
+        progress += step
+      end
     end
   end
 end
